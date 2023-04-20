@@ -1,32 +1,175 @@
-# Prerequisites
-*.d
+#include <iostream>
 
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
+#include <string>
 
-# Precompiled Headers
-*.gch
-*.pch
+#include <fstream>
 
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
+using namespace std;
 
-# Fortran module files
-*.mod
-*.smod
+struct memleket {
+    long long int bala_sany;
+    long long int olim_sany;
+    long long int immigrant;
+    long long int emigrant;
+    long long int halyk_sany;
+    long long int rost;
+};
 
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
+void show(memleket* el, string country) {
+    cout << country << endl;
+    cout << "Tuylgan bala sany: " << el->bala_sany << endl;
+    cout << "Olgen adamdar sany: " << el->olim_sany << endl;
+    cout << "Immigranttar sany: " << el->immigrant << endl;
+    cout << "Emigranttar sany: " << el->emigrant << endl;
+    cout << "Halyk sany:" << el->halyk_sany << endl;
+    cout << "_________________________" << endl;
+}
+int help(memleket& b) {
+    b.rost = (b.bala_sany - b.olim_sany) + (b.immigrant - b.emigrant);
+    return b.rost;
+}
 
-# Executables
-*.exe
-*.out
-*.app
+memleket* search(memleket* el, string* countries, int size, string country) {
+    for (int i = 0; i < size; i++) {
+        if (countries[i] == country) {
+            return &el[i];
+        }
+    }
+    return nullptr;
+}
+void file_1(string kenes) {
+    ofstream input_file;
+    input_file.open("Pismo.txt");
+    input_file << kenes;
+    string input;
+    cout << "Sizdin economicaga degen kenesiniz (zhiberu ushin 'stop' zhazynyz): " << endl;
+    while (true) {
+        getline(cin, input);
+        if (input == "stop") {
+            break;
+        }
+        input_file << input << endl;
+    }
+    input_file << "\n Hatynyz satti zhiberildi :)";
+    input_file.close();
+}
+
+int main() {
+    ofstream fl;
+    fl.open("FILE.txt");
+    cout << "Halyk sanyn esepteitin bagdarlamaga kosh keldiniz!" << endl;
+    const int m = 10;
+  memleket el[] = {
+        {5095263, 2867627, 1100526, 9926987, 1411750000},
+        {521286, 568452, 11623085, 516209, 146100096},
+        {18515, 13263,  728865, 28564, 5628060},
+        {768497, 214666, 10956367, 531567, 114610754},
+        {123571, 48758, 3568741, 2568413, 18527968},
+        {1196510, 782480, 51268453, 9585261, 338274880},
+        {51838, 12300, 385269, 1526952, 6831604},
+        {119393, 79704, 8966256, 2956874, 38870652},
+        {11713, 7561, 9565, 11614, 2995943},
+        {490773, 162551, 5284, 9566, 100514388}
+    };
+    string countries[] = {
+      "Kitai",
+      "Russian",
+      "Norvegia",
+      "Filippin",
+      "Kazakhstan",
+      "USA",
+      "Kyrgyzstan",
+      "Canada",
+      "Armenia",
+      "Vietnam"
+    };
+    for (int i = 0; i < m; i++) {
+        cout << i + 1 << ")";
+        show(&el[i], countries[i]);
+    }
+    int n;
+    cout << "Kai eldi tandadynyz? Nomerin jazynyz:";
+    cin >> n;
+    switch (n) {
+    case 1:
+        cout << "kitai" << endl;
+        break;
+    case 2:
+        cout << "russian" << endl;
+        break;
+    case 3:
+        cout << "Norvegia" << endl;
+        break;
+    case 4:
+        cout << "Filippin" << endl;
+        break;
+    case 5:
+        cout << "Kazakhstan" << endl;
+        break;
+    case 6:
+        cout << "USA" << endl;
+        break;
+    case 7:
+        cout << "Kyrgyzstan" << endl;
+        break;
+    case 8:
+        cout << "Canada" << endl;
+        break;
+    case 9:
+        cout << "Armenia" << endl;
+        break;
+    case 10:
+        cout << "Vietman" << endl;
+        break;
+    default:
+        cout << "ondai zhok";
+        break;
+    }
+
+    cout << "Tuylgan bala sany: " << el[n - 1].bala_sany << endl;
+    cout << "Olgen adamdar sany: " << el[n - 1].olim_sany << endl;
+    cout << "Immigranttar sany: " << el[n - 1].immigrant << endl;
+    cout << "Emigranttar sany: " << el[n - 1].emigrant << endl;
+    cout << "Halyk sany: " << el[n - 1].halyk_sany << endl;
+    cout << "Halyk sanyn osui: " << help(el[n - 1]) << endl;
+    cout << "________________________________________" << endl;
+
+    int k;
+    cout << "Economicaga kenes beru:";
+    if ((help(el[n - 1])) < 0) {
+        string kenes = "Memleketke degen ulesinizdi kosynyz:\n";
+        cout << kenes << endl;
+        int vibor1;
+        cout << "Hat zhazu ushin 1-di basynyz: ";
+        cin >> vibor1;
+        switch (vibor1) {
+        case 1:
+            file_1(kenes);
+            break;
+        default:
+            break;
+        }
+    }
+    else {
+        cout << "Economicalyk dagdarys ote kushti karkynmen zhurude. Aldyngy 10 zhylga halyk sany udaiy osedi." << endl;
+        cout << "_______________________________________________________________" << endl;
+    }
+
+    fl << "\nTuylgan bala sany: " << el[n - 1].bala_sany << endl;
+    fl << "Olgen adamdar sany: " << el[n - 1].olim_sany << endl;
+    fl << "Immigranttar sany: " << el[n - 1].immigrant << endl;
+    fl << "Emigranttar sany: " << el[n - 1].emigrant << endl;
+    fl << "Halyk sany: " << el[n - 1].halyk_sany << endl;
+    fl << "Halyk sanyn osui: " << help(el[n - 1]);
+
+    string country;
+    cout << "Kai eldi izdeisiz?: ";
+    cin >> country;
+    memleket* result = search(el, countries, m, country);
+    if (result != nullptr) {
+        show(result, country);
+    }
+    else {
+        cout << "Tabylmady" << endl;
+    }
+}
